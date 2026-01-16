@@ -7,12 +7,35 @@ import os
 app = Flask(__name__)
 
 # --- DEPLOYMENT CONFIG ---
-# This ensures it works on Render (port 10000) or locally (port 5000)
 PORT = int(os.environ.get("PORT", 5000))
 UPLOAD_FOLDER = 'temp_uploads'
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+
+# --- DATABASE BOOTSTRAP ---
+# This automatically creates your table in Aiven if it doesn't exist
+def create_tables():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS user_chords (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(255) NOT NULL,
+                artist VARCHAR(255),
+                chord_text TEXT NOT NULL
+            )
+        """)
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print("Database table checked/created successfully!")
+    except Exception as e:
+        print(f"Database bootstrap error: {e}")
+
+# Run the check immediately when the app starts
+create_tables()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -80,7 +103,6 @@ def upload():
         if not title or not chords:
             return "Title and chords are required", 400
 
-        # This uses your existing db.py logic
         conn = get_db_connection()
         cursor = conn.cursor()
         try:
@@ -99,5 +121,4 @@ def upload():
     return render_template("upload.html", success=success_msg)
 
 if __name__ == "__main__":
-    # Use 0.0.0.0 to make it accessible on the web
     app.run(host='0.0.0.0', port=PORT, debug=True)
