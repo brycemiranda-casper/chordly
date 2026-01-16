@@ -2,12 +2,22 @@ import mysql.connector
 import os
 
 def get_db_connection():
-    # This looks for the variables you typed into Render
-    # If it can't find them (like on your laptop), it uses the "localhost" defaults
+    # This grabs the Aiven info from the Render Environment tab
     return mysql.connector.connect(
-        host=os.environ.get('DB_HOST', 'localhost'),
-        user=os.environ.get('DB_USER', 'root'),
-        password=os.environ.get('DB_PASS', 'brycee2044'),
-        database=os.environ.get('DB_NAME', 'chordify_audio'),
-        port=os.environ.get('DB_PORT', '28995')
+        host=os.environ.get('DB_HOST'),
+        user=os.environ.get('DB_USER'),
+        password=os.environ.get('DB_PASS'),
+        database=os.environ.get('DB_NAME'),
+        port=int(os.environ.get('DB_PORT', 28995))
     )
+
+
+
+#import mysql.connector
+#def get_db_connection():
+#    return mysql.connector.connect(
+#        host="localhost",
+#        user="root",
+#        password="brycee2044",
+#        database="chordify_audio"
+#    )
