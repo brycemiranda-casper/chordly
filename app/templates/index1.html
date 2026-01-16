@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chordify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Chordify</h1>
+
+    <h2>Search by Song Name</h2>
+    <form method="POST">
+        <input type="hidden" name="mode" value="name">
+        <input type="text" name="song_name" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Identify Song by File</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="mode" value="file">
+        <input type="file" name="song_file" required>
+        <button type="submit">Upload</button>
+    </form>
+    <a href="/upload">Upload Chords</a>
+
+
+    {% if result %}
+        <hr>
+        <h2>Result</h2>
+        <p><b>{{ result.title }}</b> – {{ result.artist }}</p>
+        <pre>
+{% if result %}
+    <hr>
+    <h2>{{ result.title }} – {{ result.artist }}</h2>
+
+    {% if chords_text %}
+        <pre style="font-size:16px; line-height:1.5;">
+{{ chords_text }}
+        </pre>
+    {% else %}
+        <p>No chord sheet available.</p>
+    {% endif %}
+{% endif %}
+
+        </pre>
+    {% endif %}
+</body>
+</html>

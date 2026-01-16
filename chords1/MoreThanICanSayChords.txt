@@ -1,0 +1,137 @@
+More Than I Can Say Chords by Leo Sayer
+Difficulty: intermediateGenre: pop
+First intermediate version (with slash chords and riff).
+Speed: 0.2
+Transpose
+Tuning: E A D G B E Capo: no capo
+
+ 
+capo: 3rd fret
+play: G
+key: Bb
+ 
+---------------------------------------------------------------------------
+ 
+CHORDS
+          E-A-D-G-B-e
+Gadd9     3-x-0-2-0-3
+Esus4     0-2-2-2-0-0
+Cadd9     x-3-2-0-3-0
+D9        x-x-0-2-1-0
+D6        x-x-0-4-3-x
+C/D       x-x-0-0-1-0
+Bsus4     x-2-4-4-0-0
+ 
+---------------------------------------------------------------------------
+ 
+Basic pattern for verses and intro
+  G   Gadd9   G    G                Em  Esus4   Em   Em
+  1 + 2 + 3 + 4 +  1 + 2 + 3 + 4 +  1 + 2 + 3 + 4 +  1 + 2 + 3 + 4 +
+e|3-----3-----3---|----------------|0-----0-----0---|----------------|
+B|0-----0-----0---|----------------|0-----0-----0---|----------------|
+G|0-----2-----0---|----------------|0-----2-----0---|----------------|
+D|0-----0---------|----------------|2-----2-----2---|----------------|
+A|----------------|----------------|2---------------|----------------|
+E|3---------------|----------------|0---------------|----------------|
+ 
+---------------------------------------------------------------------------
+ 
+[Intro]
+| G  Gadd9  G | G | Em  Esus4  Em | Em |
+| G  Gadd9  G | G | Em  Esus4  Em | Em |
+ 
+ 
+[Verse]
+           | G  Gadd9  G |
+Oh-woah-yay-yay
+G                          | Em  Esus4  Em |
+ I love you more than I can say
+Em                             Bm    Bsus4 Bm  Am
+ I'll love you twice as much tomorrow,     wo-o-oh
+         D5             | G  Gadd9  G | Em |
+Love you more than I can say
+ 
+ 
+[Verse]
+           | G  Gadd9  G |
+Oh-woah-yay-yay
+G                          | Em  Esus4  Em |
+ I'll miss you every single day
+Em                               Bm    Bsus4 Bm  Am
+ Why must my life be filled with sorrow,     o - oh
+         D5             | G  Gadd9  G | G |
+Love you more than I can say
+ 
+ 
+[Middle 8]
+                             | C  Cadd9 C |
+Oh, don't you know I need you so
+C                            | G  Gadd9  G |
+ Oh, tell me please, I got to know
+G                      | A  Asus4 A |
+ Do you mean to make me cry?
+A                 | D D9 | D6      C/D |   [ G ]
+ Am I just another guy?       O-oh-woah-yay-yay
+                                  (break)
+ 
+ 
+[Verse]
+           | G  Gadd9  G |
+Oh-woah-yay-yay
+G                         | Em  Esus4  Em |
+ I miss you more than I can say
+Em                               Bm    Bsus4 Bm  Am
+ Why must my life be filled with sorrow,     o - oh
+         D5             | G  Gadd9  G | Em |
+Love you more than I can say
+ 
+ 
+[Solo]
+| G  Gadd9  G | G | Em  Esus4  Em | Em |
+| Bm  Bsus4    Bm| Am D5 | G  Gadd9  G | G |
+ 
+ 
+[Middle 8]
+                             | C  Cadd9 C |
+Oh, don't you know I need you so
+C                            | G  Gadd9  G |
+ Oh, tell me please, I got to know
+G                      | A  Asus4 A |
+ Do you mean to make me cry?
+A                 | D D9 | D6      C/D |   [ G ]
+ Am I just another guy?       O-oh-woah-yay-yay
+                                  (break)
+ 
+ 
+[Verse]
+           | G  Gadd9  G |
+Oh-woah-yay-yay
+G                          | Em  Esus4  Em |
+ I love you more than I can say
+Em                             Bm    Bsus4 Bm  Am
+ I'll love you twice as much tomorrow,     wo-o-oh
+         D5             | G  Gadd9  G |
+Love you more than I can say
+Am          D5             | G  Gadd9  G |
+ I love you more than I can say, oh
+Am          D5             | G | % |
+ I love you more than I can say, oh
+                           (break)
+ 
+ 
+[Outro] (repeat and fade, vocals ad lib)
+| Em  Esus4  Em | Em | G  Gadd9  G | G |
+ 
+| Em  Esus4  Em | Em | G  Gadd9  G | G |
+ 
+ 
+(Mmm, more than I can say)
+ (Mmm, more than I can say)
+I'll love you twice as much tomorrow
+(Mmm, more than I can say)
+I love you more than I can say
+(Mmm, more than I can say)
+I love you more than words can
+(Mmm, more than I can say)
+I love you more than I can say
+X

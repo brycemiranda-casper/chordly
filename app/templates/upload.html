@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Chords – Chordly</title>
+    <link rel="stylesheet" crossorigin href="{{ url_for('static', filename='css/index-gFGseHxt.css') }}">
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(140deg, #ffffff 0%, #c505fa 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .upload-wrapper {
+            display: flex;
+            background: white;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.07);
+        }
+
+        /* Sidebar Info */
+        .upload-info {
+            background: linear-gradient(#7600e4, white);
+            color: rgb(0, 0, 0);
+            padding: 50px;
+            width: 35%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .upload-info h2 { font-size: 28px; margin-bottom: 20px; }
+        .upload-info p { font-size: 15px; line-height: 1.6; opacity: 0.9; }
+        .tip { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 12px; margin-top: 30px; font-size: 13px; }
+
+        /* Form Area */
+        .form-area {
+            padding: 50px;
+            flex: 1;
+        }
+
+        .success-banner {
+            background: #6e977a;
+            color: #166534;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 15px;
+            border: 2px solid #f3f4f6;
+            border-radius: 12px;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, textarea:focus { border-color: #9333ea; }
+
+        textarea { height: 180px; font-family: 'JetBrains Mono', monospace; }
+
+        .btn-upload {
+            width: 100%;
+            padding: 16px;
+            background: #9333ea;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-upload:hover { background: #7e22ce; }
+
+        .back-link { display: block; text-align: center; margin-top: 20px; color: #000000; text-decoration: none; font-size: 14px; }
+        .back-link:hover { color: #9333ea; }
+    </style>
+</head>
+<body>
+
+    <div class="upload-wrapper">
+        <div class="upload-info">
+            <h2>Upload Chords</h2>
+            <p>Help other musicians by sharing your chord sheets. No login needed.</p>
+            <div class="tip">
+                <strong>Pro Tip:</strong> Place chord letters directly above the lyrics where the change happens for the best result.
+            </div>
+        </div>
+
+        <div class="form-area">
+            {% if success %}
+                <div class="success-banner">✓ Your chords have been published!</div>
+            {% endif %}
+
+            <form method="POST">
+                <input type="text" name="title" placeholder="Song Title (e.g. Yellow)" required>
+                <input type="text" name="artist" placeholder="Artist Name (e.g. Coldplay)">
+                <textarea name="chords" placeholder="Paste your chords here...&#10;&#10;C       G&#10;In the stars... " required></textarea>
+                
+                <button type="submit" class="btn-upload">Publish to Chordify</button>
+            </form>
+
+            <a href="/" class="back-link">← Cancel and go back</a>
+        </div>
+    </div>
+
+</body>
+</html>

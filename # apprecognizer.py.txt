@@ -1,0 +1,99 @@
+# app/recognizer.py
+import os
+import subprocess
+import requests
+from bs4 import BeautifulSoup
+
+# Put your AcoustID client key here (or provide as env var)
+ACOUSTID_KEY = os.getenv("ACOUSTID_API_KEY", "YOUR_ACOUSTID_KEY")
+
+def convert_to_wav(input_path, out_path):
+    # convert to mono, 44100 Hz wav
+    cmd = ["ffmpeg", "-y", "-i", input_path, "-ac", "1", "-ar", "44100", out_path]
+    subprocess.check_call(cmd)
+
+def run_fpcalc(wav_path):
+    # returns fingerprint, duration
+    # fpcalc -json may or may not exist; use plain parsing if needed
+    try:
+        res = subprocess.run(["fpcalc", "-json", wav_path], capture_output=True, text=True, check=True)
+        import json
+        data = json.loads(res.stdout)
+        return data.get("fingerprint"), data.get("duration")
+    except Exception:
+        res = subprocess.run(["fpcalc", wav_path], capture_output=True, text=True, check=True)
+        fp = None
+        dur = None
+        for line in res.stdout.splitlines():
+            if line.startswith("FINGERPRINT="):
+                fp = line.split("=",1)[1].strip()
+            if line.startswith("DURATION="):
+                dur = float(line.split("=",1)[1].strip())
+        return fp, dur
+
+def lookup_acoustid(fingerprint, duration):
+    url = "https://api.acoustid.org/v2/lookup"
+    data = {
+        "client": ACOUSTID_KEY,
+        "format": "json",
+        "fingerprint": fingerprint,
+        "duration": int(duration),
+        "meta": "recordings+releasegroups+tracks+sources"
+    }
+    r = requests.post(url, data=data, timeout=15)
+    r.raise_for_status()
+    return r.json()
+
+def parse_acoustid_result(json_data):
+    results = json_data.get("results", [])
+    if not results:
+        return None, None
+    best = results[0]
+    recordings = best.get("recordings", [])
+    if not recordings:
+        return None, None
+    rec = recordings[0]
+    title = rec.get("title")
+    artists = rec.get("artists", [])
+    artist = artists[0].get("name") if artists else None
+    return title, artist
+
+def search_ultimate_guitar(title, artist):
+    # build a query and try to find the first direct UG link
+    query = f"{title} {artist} chords"
+    # use UG search page first
+    ug_search = f"https://www.ultimate-guitar.com/search.php?search_type=title&value={requests.utils.requote_uri(query)}"
+    try:
+        r = requests.get(ug_search, timeout=8, headers={"User-Agent":"Mozilla/5.0"})
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+        # UG search results often contain links with 'js-search-result-link' or href to '/tabs/...'
+        a = soup.find("a", class_="js-search-result-link")
+        if a and a.get("href"):
+            return a["href"]
+        # fallback: try to find any /tabs/ link
+        a2 = soup.find("a", href=lambda h: h and "/tabs/" in h)
+        if a2 and a2.get("href"):
+            return a2["href"]
+    except Exception:
+        pass
+    # ultimate fallback: Google site search URL (user will get results)
+    google_site = f"https://www.google.com/search?q=site:ultimate-guitar.com+{requests.utils.requote_uri(query)}"
+    return google_site
+
+def identify_file(path):
+    # convert to wav
+    base = os.path.splitext(path)[0]
+    wav = base + "_conv.wav"
+    convert_to_wav(path, wav)
+    fingerprint, duration = run_fpcalc(wav)
+    if not fingerprint or not duration:
+        raise RuntimeError("Fingerprinting failed")
+    j = lookup_acoustid(fingerprint, duration)
+    title, artist = parse_acoustid_result(j)
+    # cleanup wav
+    try:
+        os.remove(wav)
+    except:
+        pass
+    return title, artist
