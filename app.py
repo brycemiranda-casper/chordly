@@ -14,24 +14,38 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 # --- DATABASE BOOTSTRAP ---
-# This automatically creates your table in Aiven if it doesn't exist
 def create_tables():
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
+        
+        # 1. Table for user-contributed chords (Your "Upload" feature)
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS user_chords (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title VARCHAR(255) NOT NULL,
                 artist VARCHAR(255),
-                chord_text TEXT NOT NULL
+                chord_text TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        
+        # 2. Table for the main song library (Required by your search_by_name_logic)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS songs (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(255) NOT NULL,
+                artist VARCHAR(255),
+                chord_file VARCHAR(255)
+            )
+        """)
+        
         conn.commit()
         cursor.close()
         conn.close()
-        print("Database table checked/created successfully!")
+        print("Chordly database tables are ready!")
     except Exception as e:
+        # This will show up in your Render Logs if there is a connection issue
         print(f"Database bootstrap error: {e}")
 
 # Run the check immediately when the app starts
@@ -52,9 +66,10 @@ def index():
         # 1. SEARCH BY SONG NAME
         if mode == "name":
             song_name = request.form.get("song_name", "").strip()
+            # This logic looks at BOTH tables, so both must exist!
             result = search_by_name_logic(song_name)
 
-        # 2. IDENTIFY BY FILE UPLOAD
+        # 2. IDENTIFY BY FILE UPLOAD (Audio recognition)
         elif mode == "file":
             if "song_file" not in request.files:
                 return "No file part", 400
@@ -67,7 +82,7 @@ def index():
             file.save(path)
             result = recognize_from_path_logic(path)
 
-        # Process the result for the chords_text
+        # Process the result for the chords_text display
         if result and result.get("chords"):
             chords_text = result["chords"]
         elif result and result.get("chord_file"):
@@ -76,7 +91,7 @@ def index():
                 with open(chord_path, "r", encoding="utf-8") as f:
                     chords_text = f.read()
             else:
-                chords_text = "Chord file not found."
+                chords_text = "Chord file not found in library."
 
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.is_json:
             return jsonify({
@@ -111,7 +126,7 @@ def upload():
                 (title, artist, chords)
             )
             conn.commit()
-            success_msg = "Chord sheet uploaded successfully!"
+            success_msg = "Chord sheet uploaded successfully! Community thanks you."
         except Exception as e:
             return f"Database error: {e}", 500
         finally:
